@@ -1,23 +1,28 @@
 package com.test.log;
 
 import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class LogParser implements Parser {
-    Gson json = new Gson();
-    Map<String, Log> records = new HashMap<>();
-    List<EventLog> eventsToBeSaved = new ArrayList<>();
+    private Gson json;
+    private Map<String, Log> records;
+    private List<EventLog> eventsToBeSaved;
+
+    public LogParser() {
+        json = new Gson();
+        records = new HashMap<>();
+        eventsToBeSaved = new ArrayList<>();
+    }
 
     public void parseRecord(String recordAsJson) {
         try {
             Log log = json.fromJson(recordAsJson, Log.class);
 
             if (log.state.equals(Log.FINISHED_STATE)) {
-                calculateTimeDifference(log);
+                lookForStartedEventAndMoveToSavingQueue(log);
             } else {
                 cacheRecord(log);
             }
@@ -27,7 +32,7 @@ public class LogParser implements Parser {
         }
     }
 
-    private void calculateTimeDifference(Log finishedEvent) {
+    private void lookForStartedEventAndMoveToSavingQueue(Log finishedEvent) {
         if (records.containsKey(finishedEvent.id)) {
             Log startedEvent = records.get(finishedEvent.id);
 
