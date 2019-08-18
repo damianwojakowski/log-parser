@@ -22,3 +22,9 @@ jar {
         attributes 'Main-Class': 'com.test.Application'
     }
 }
+
+test {
+    testLogging {
+        showStandardStreams = true
+    }
+}

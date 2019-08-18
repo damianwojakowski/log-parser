@@ -1,5 +1,6 @@
 package com.test;
 
+import com.test.log.EventLogSaver;
 import com.test.log.LogParser;
 import com.test.log.LogReader;
 import com.test.log.Parser;
@@ -19,7 +20,7 @@ public class EventAnalyserTest {
 
     @Before
     public void setUp() throws Exception {
-        eventAnalyser = new EventAnalyser(new LogParser(), new LogReader());
+        eventAnalyser = new EventAnalyser(new LogParser(), new LogReader(), new EventLogSaver());
     }
 
     @After

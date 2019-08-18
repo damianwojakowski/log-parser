@@ -1,5 +1,6 @@
 package com.test;
 
+import com.test.log.EventLogSaver;
 import com.test.log.LogParser;
 import com.test.log.LogReader;
 import org.slf4j.Logger;
@@ -13,7 +14,7 @@ public class Application {
             logger.info("Starting application.");
             logger.debug("Arguments passed via console: {}", args[0]);
 
-            EventAnalyser eventAnalyser = new EventAnalyser(new LogParser(), new LogReader());
+            EventAnalyser eventAnalyser = new EventAnalyser(new LogParser(), new LogReader(), new EventLogSaver());
             eventAnalyser.readLogsFile(args[0]);
 
             logger.info("Closing application.");
