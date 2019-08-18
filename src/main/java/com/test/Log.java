@@ -8,4 +8,5 @@ public class Log {
     public String state;
     public String host;
     public long timestamp;
+    public String type;
 }

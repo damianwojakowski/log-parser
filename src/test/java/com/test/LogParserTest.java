@@ -3,7 +3,7 @@ package com.test;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
 
 public class LogParserTest {
 
@@ -21,49 +21,52 @@ public class LogParserTest {
 
     @Test
     public void GivenJsonString_ParseId() {
-        String inputValue = "{\"id\":\"1\"}";
-        Log expectedValue = new Log();
-        expectedValue.id = "1";
+        String expectedId = "1";
+        String inputValue = String.format("{\"id\":\"%s\"}", expectedId);
 
         logParser.parseRecord(inputValue);
 
-        Assert.assertEquals(expectedValue.id, logParser.getRecords().get("1").id);
+        assertEquals(expectedId, logParser.getRecords().get("1").id);
     }
 
     @Test
     public void GivenJsonString_ParseState() {
-        String inputValue = "{\"id\":\"1\",\"state\":\"STARTED\"}";
-        Log expectedValue = new Log();
-        expectedValue.id = "1";
-        expectedValue.state = "STARTED";
+        String expectedState = Log.STARTED_STATE;
+        String inputValue = String.format("{\"id\":\"1\",\"state\":\"%s\"}", Log.STARTED_STATE);
 
         logParser.parseRecord(inputValue);
 
-        Assert.assertEquals(expectedValue.state, logParser.getRecords().get("1").state);
+        assertEquals(expectedState, logParser.getRecords().get("1").state);
     }
 
     @Test
     public void GivenJsonString_ParseHost() {
-        String inputValue = "{\"id\":\"1\",\"host\":\"1234\"}";
-        Log expectedValue = new Log();
-        expectedValue.id = "1";
-        expectedValue.host = "1234";
+        String expectedHost = "1234";
+        String inputValue = String.format("{\"id\":\"1\",\"host\":\"%d\"}", expectedHost);
 
         logParser.parseRecord(inputValue);
 
-        Assert.assertEquals(expectedValue.host, logParser.getRecords().get("1").host);
+        assertEquals(expectedHost, logParser.getRecords().get("1").host);
     }
 
     @Test
     public void GivenJsonString_ParseTimestamp() {
-        String inputValue = String.format("{\"id\":\"1\",\"timestamp\":\"1566113940774\"}");
-        Log expectedValue = new Log();
-        expectedValue.id = "1";
-        expectedValue.timestamp = 1566113940774L;
+        long timestamp = 1566113940774L;
+        String inputValue = String.format("{\"id\":\"1\",\"timestamp\":\"%d\"}", timestamp);
 
         logParser.parseRecord(inputValue);
 
-        Assert.assertEquals(expectedValue.timestamp, logParser.getRecords().get("1").timestamp);
+        assertEquals(timestamp, logParser.getRecords().get("1").timestamp);
+    }
+
+    @Test
+    public void GivenJsonString_ParseType() {
+        String type = "APPLICATION_LOG";
+        String inputValue = String.format("{\"id\":\"1\",\"type\":\"%s\"}", type);
+
+        logParser.parseRecord(inputValue);
+
+        assertEquals(type, logParser.getRecords().get("1").type);
     }
 
     @Test
@@ -73,6 +76,27 @@ public class LogParserTest {
 
         logParser.parseRecord(inputValue);
 
-        Assert.assertEquals(expectedSize, logParser.getRecords().size());
+        assertEquals(expectedSize, logParser.getRecords().size());
+    }
+
+    @Test
+    public void GivenRecordWithFinishedState_CalculateTimeDifference() {
+        long startedTimestamp = 1566113940774L;
+        long finisedTimestamp = 1566113940776L;
+        long timeDifference = finisedTimestamp - startedTimestamp;
+        String inputValue = String.format(
+                "{\"id\":\"1\",\"state\":\"%s\",\"timestamp\":\"%d\"}",
+                Log.FINISHED_STATE,
+                finisedTimestamp
+        );
+
+        Log expectedValue = new Log();
+        expectedValue.id = "1";
+        expectedValue.state = Log.STARTED_STATE;
+        expectedValue.timestamp = startedTimestamp;
+
+        logParser.parseRecord(inputValue);
+
+//        assertEquals(expectedSize, logParser.getRecords().size());
     }
 }
