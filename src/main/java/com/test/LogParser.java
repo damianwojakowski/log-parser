@@ -15,12 +15,17 @@ public class LogParser {
     List<EventLog> eventsToBeSaved = new ArrayList<>();
 
     public void parseRecord(String recordAsJson) {
-        Log log = json.fromJson(recordAsJson, Log.class);
+        try {
+            Log log = json.fromJson(recordAsJson, Log.class);
 
-        if (log.state.equals(Log.FINISHED_STATE)) {
-            calculateTimeDifference(log);
-        } else {
-            cacheRecord(log);
+            if (log.state.equals(Log.FINISHED_STATE)) {
+                calculateTimeDifference(log);
+            } else {
+                cacheRecord(log);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -42,6 +47,8 @@ public class LogParser {
             eventLog.type = log.type;
 
             eventsToBeSaved.add(eventLog);
+
+            records.remove(log.id);
         } else {
             //TODO: What when there is FINISHED state without STARTED state?
             cacheRecord(log);
