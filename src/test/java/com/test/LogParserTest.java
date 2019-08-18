@@ -3,6 +3,7 @@ package com.test;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 
 public class LogParserTest {
@@ -71,7 +72,7 @@ public class LogParserTest {
 
     @Test
     public void GivenRecordWithStartState_CacheIt() {
-        String inputValue = String.format("{\"id\":\"1\",\"state\":\"%s\"}", Log.STARTED_STATE);
+        String inputValue = generateEventString("1", Log.STARTED_STATE, 12312L);
         int expectedSize = 1;
 
         logParser.parseRecord(inputValue);
@@ -81,20 +82,12 @@ public class LogParserTest {
 
     @Test
     public void GivenRecordWithFinishedState_CalculateTimeDifference() {
+        String id = "1";
         long startedTimestamp = 1566113940774L;
         long finisedTimestamp = 1566113940776L;
         long timeDifference = finisedTimestamp - startedTimestamp;
-        String startedEvent = String.format(
-                "{\"id\":\"1\",\"state\":\"%s\",\"timestamp\":\"%d\"}",
-                Log.STARTED_STATE,
-                startedTimestamp
-        );
-
-        String finishedEvent = String.format(
-                "{\"id\":\"1\",\"state\":\"%s\",\"timestamp\":\"%d\"}",
-                Log.FINISHED_STATE,
-                finisedTimestamp
-        );
+        String startedEvent = generateEventString(id, Log.STARTED_STATE, startedTimestamp);
+        String finishedEvent = generateEventString(id, Log.FINISHED_STATE, finisedTimestamp);
 
         logParser.parseRecord(startedEvent);
         logParser.parseRecord(finishedEvent);
@@ -102,5 +95,9 @@ public class LogParserTest {
         EventLog eventLog = logParser.getEventsToBeSaved().get(0);
 
         assertEquals(timeDifference, eventLog.duration);
+    }
+
+    private String generateEventString(String id, String state, long timestamp) {
+        return String.format("{\"id\":\"%s\",\"state\":\"%s\",\"timestamp\":\"%d\"}", id, state, timestamp);
     }
 }
