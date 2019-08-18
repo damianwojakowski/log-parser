@@ -33,6 +33,26 @@ public class EventLogTest {
         assertNotNull(eventLog);
     }
 
+    @Test
+    public void GivenStartAndFinishedLogWithMoreThan4MillisecondGap_ShouldSetAlertAsTrue() {
+        Log startLog = createStartLog();
+        Log finishLog = createFinishLog(8);
+
+        eventLog = new EventLog(startLog, finishLog);
+
+        assertTrue(eventLog.alert);
+    }
+
+    @Test
+    public void GivenStartAndFinishedLogWithLessThan4MillisecondGap_ShouldSetAlertAsFalse() {
+        Log startLog = createStartLog();
+        Log finishLog = createFinishLog(2);
+
+        eventLog = new EventLog(startLog, finishLog);
+
+        assertFalse(eventLog.alert);
+    }
+
     private Log createStartLog() {
         Log startLog = new Log();
         startLog.id = id;
