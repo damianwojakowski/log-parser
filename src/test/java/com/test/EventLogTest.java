@@ -13,11 +13,6 @@ public class EventLogTest {
     private final String host = "1234";
     private final long startTimestamp = 1566113940774L;
 
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
     @After
     public void tearDown() throws Exception {
         eventLog = null;
