@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class LogParser {
     Gson json = new Gson();
-    Map<String, Log> records = new HashMap<String, Log>();
+    Map<String, Log> records = new HashMap<>();
     List<EventLog> eventsToBeSaved = new ArrayList<>();
 
     public void parseRecord(String recordAsJson) {
