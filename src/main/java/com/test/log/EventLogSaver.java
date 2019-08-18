@@ -39,14 +39,8 @@ public class EventLogSaver implements Saver {
                 pstmt.setString(1, eventLog.getId());
                 pstmt.setInt(2, eventLog.getDuration());
                 pstmt.setBoolean(5, eventLog.isAlert());
-
-                if (eventLog.getType() != null) {
-                    pstmt.setString(3, eventLog.getType());
-                }
-
-                if (eventLog.getHost() != null) {
-                    pstmt.setString(4, eventLog.getHost());
-                }
+                pstmt.setString(3, eventLog.getType());
+                pstmt.setString(4, eventLog.getHost());
 
                 pstmt.executeUpdate();
             } catch (SQLException e) {
