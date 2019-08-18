@@ -112,7 +112,36 @@ public class LogParserTest {
         assertEquals(expectedNumberOfRecords, logParser.getRecords().size());
     }
 
+    @Test
+    public void GivenRecords_EventLogShouldContainAllInformationFromRecords() {
+        String id = "asdfasfda";
+        String expectedType = "APPLICATION_LOG";
+        String expectedHost = "1234";
+        long startedTimestamp = 1566113940774L;
+        long finishedTimestamp = 1566113940776L;
+        long timeDifference = finishedTimestamp - startedTimestamp;
+        String startedEvent = generateCompleteEventString(id, Log.STARTED_STATE, startedTimestamp, expectedType, expectedHost);
+        String finishedEvent = generateCompleteEventString(id, Log.FINISHED_STATE, finishedTimestamp, expectedType, expectedHost);
+
+        logParser.parseRecord(startedEvent);
+        logParser.parseRecord(finishedEvent);
+
+        EventLog eventLog = logParser.getEventsToBeSaved().get(0);
+
+        assertEquals(id, eventLog.id);
+        assertEquals(timeDifference, eventLog.duration);
+        assertEquals(expectedHost, eventLog.host);
+        assertEquals(expectedType, eventLog.type);
+    }
+
     private String generateEventString(String id, String state, long timestamp) {
         return String.format("{\"id\":\"%s\",\"state\":\"%s\",\"timestamp\":\"%d\"}", id, state, timestamp);
+    }
+
+    private String generateCompleteEventString(String id, String state, long timestamp, String type, String host) {
+        return String.format(
+                "{\"id\":\"%s\",\"state\":\"%s\",\"timestamp\":\"%d\",\"type\":\"%s\",\"host\":\"%s\"}",
+                id, state, timestamp, type, host
+        );
     }
 }

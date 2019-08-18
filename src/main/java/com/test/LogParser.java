@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 public class LogParser {
-    Log log;
-
     Gson json = new Gson();
     Map<String, Log> records = new HashMap<String, Log>();
     List<EventLog> eventsToBeSaved = new ArrayList<>();
