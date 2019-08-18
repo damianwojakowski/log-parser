@@ -34,7 +34,7 @@ public class EventLogTest {
 
         eventLog = new EventLog(startLog, finishLog);
 
-        assertTrue(eventLog.alert);
+        assertTrue(eventLog.isAlert());
     }
 
     @Test
@@ -44,7 +44,22 @@ public class EventLogTest {
 
         eventLog = new EventLog(startLog, finishLog);
 
-        assertFalse(eventLog.alert);
+        assertFalse(eventLog.isAlert());
+    }
+
+    @Test
+    public void GivenLogs_ShouldSaveLogId() {
+        int duration = 2;
+        String logId = "someId";
+        Log startLog = createStartLog();
+        startLog.id =  logId;
+
+        Log finishLog = createFinishLog(duration);
+        finishLog.id = logId;
+
+        eventLog = new EventLog(startLog, finishLog);
+
+        assertEquals(logId, eventLog.getId());
     }
 
     @Test
@@ -55,7 +70,7 @@ public class EventLogTest {
 
         eventLog = new EventLog(startLog, finishLog);
 
-        assertEquals(duration, eventLog.duration);
+        assertEquals(duration, eventLog.getDuration());
     }
 
     @Test
@@ -70,7 +85,7 @@ public class EventLogTest {
 
         eventLog = new EventLog(startLog, finishLog);
 
-        assertEquals(host, eventLog.host);
+        assertEquals(host, eventLog.getHost());
     }
 
     @Test
@@ -85,7 +100,7 @@ public class EventLogTest {
 
         eventLog = new EventLog(startLog, finishLog);
 
-        assertEquals(type, eventLog.type);
+        assertEquals(type, eventLog.getType());
     }
 
     private Log createStartLog() {

@@ -94,7 +94,7 @@ public class LogParserTest {
 
         EventLog eventLog = logParser.getEventsToBeSaved().get(0);
 
-        assertEquals(timeDifference, eventLog.duration);
+        assertEquals(timeDifference, eventLog.getDuration());
     }
 
     @Test
@@ -129,11 +129,11 @@ public class LogParserTest {
 
         EventLog eventLog = logParser.getEventsToBeSaved().get(0);
 
-        assertEquals(id, eventLog.id);
-        assertEquals(timeDifference, eventLog.duration);
-        assertEquals(expectedHost, eventLog.host);
-        assertEquals(expectedType, eventLog.type);
-        assertEquals(isAlert, eventLog.alert);
+        assertEquals(id, eventLog.getId());
+        assertEquals(timeDifference, eventLog.getDuration());
+        assertEquals(expectedHost, eventLog.getHost());
+        assertEquals(expectedType, eventLog.getType());
+        assertEquals(isAlert, eventLog.isAlert());
     }
 
     private String generateEventString(String id, String state, long timestamp) {

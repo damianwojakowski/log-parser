@@ -1,11 +1,11 @@
 package com.test;
 
 public class EventLog {
-    String id;
-    String type;
-    String host;
-    long duration;
-    boolean alert;
+    private String id;
+    private String type;
+    private String host;
+    private long duration;
+    private boolean alert;
 
     public EventLog(Log startLog, Log finishLog) {
         duration = finishLog.timestamp - startLog.timestamp;
@@ -14,6 +14,26 @@ public class EventLog {
         id = startLog.id;
         type = startLog.type != null && !startLog.type.isEmpty() ? startLog.type : finishLog.type;
         host = startLog.host != null && !startLog.host.isEmpty() ? startLog.host : finishLog.host;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public boolean isAlert() {
+        return alert;
     }
 
     private void setDurationAndAlert(long duration) {
