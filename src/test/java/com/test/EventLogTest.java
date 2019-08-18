@@ -73,6 +73,21 @@ public class EventLogTest {
         assertEquals(host, eventLog.host);
     }
 
+    @Test
+    public void GivenLogs_ShouldSaveType() {
+        int duration = 5;
+        String type = "APPLICATION_LOG_2";
+        Log startLog = createStartLog();
+        startLog.type = type;
+
+        Log finishLog = createFinishLog(duration);
+        finishLog.type = type;
+
+        eventLog = new EventLog(startLog, finishLog);
+
+        assertEquals(type, eventLog.type);
+    }
+
     private Log createStartLog() {
         Log startLog = new Log();
         startLog.id = id;
