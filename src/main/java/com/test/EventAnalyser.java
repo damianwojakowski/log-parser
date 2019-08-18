@@ -3,6 +3,7 @@ package com.test;
 import com.test.log.Parser;
 import com.test.log.Reader;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import com.test.log.Saver;
 import org.slf4j.Logger;
@@ -22,7 +23,7 @@ public class EventAnalyser {
         this.saver = saver;
     }
 
-    public void readLogsFile(String pathToLogs) throws IOException {
+    public void readLogsFile(String pathToLogs, String databasePath) throws IOException, SQLException {
         logger = LoggerFactory.getLogger(EventAnalyser.class);
 
         logger.info("Reading logs file.");
@@ -32,6 +33,9 @@ public class EventAnalyser {
         int logsParsed = 0;
 
         logger.debug("File loaded.");
+
+        logger.debug("Connecting to database.");
+        saver.connect(databasePath);
 
         while (reader.hasNextLine()) {
             parser.parseRecord(reader.getNextLine());
@@ -47,6 +51,9 @@ public class EventAnalyser {
 
         logger.debug("Closing I/O stream.");
         reader.closeStream();
+
+        logger.debug("Closing connection to database.");
+        saver.closeConnection();
 
         logger.info("Reading has finished.");
     }

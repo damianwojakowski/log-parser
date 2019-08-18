@@ -15,7 +15,7 @@ public class Application {
             logger.debug("Arguments passed via console: {}", args[0]);
 
             EventAnalyser eventAnalyser = new EventAnalyser(new LogParser(), new LogReader(), new EventLogSaver());
-            eventAnalyser.readLogsFile(args[0]);
+            eventAnalyser.readLogsFile(args[0], "eventlogdb");
 
             logger.info("Closing application.");
         } catch (Exception e) {

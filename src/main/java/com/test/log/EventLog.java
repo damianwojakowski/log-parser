@@ -4,11 +4,11 @@ public class EventLog {
     private String id;
     private String type;
     private String host;
-    private long duration;
+    private int duration;
     private boolean alert;
 
     public EventLog(Log startLog, Log finishLog) {
-        duration = finishLog.timestamp - startLog.timestamp;
+        duration = (int) (finishLog.timestamp - startLog.timestamp);
         setDurationAndAlert(duration);
 
         id = startLog.id;
@@ -28,7 +28,7 @@ public class EventLog {
         return host;
     }
 
-    public long getDuration() {
+    public int getDuration() {
         return duration;
     }
 
@@ -36,7 +36,7 @@ public class EventLog {
         return alert;
     }
 
-    private void setDurationAndAlert(long duration) {
+    private void setDurationAndAlert(int duration) {
         this.duration = duration;
 
         if (duration > 4) {
