@@ -27,29 +27,17 @@ public class LogParser {
         }
     }
 
-    private void calculateTimeDifference(Log log) {
-        if (records.containsKey(log.id)) {
-            Log startedState = records.get(log.id);
-            long timeDifference = log.timestamp - startedState.timestamp;
+    private void calculateTimeDifference(Log finishedEvent) {
+        if (records.containsKey(finishedEvent.id)) {
+            Log startedEvent = records.get(finishedEvent.id);
 
-            EventLog eventLog = new EventLog();
-            if (timeDifference > 4) {
-                eventLog.alert = true;
-            } else {
-                eventLog.alert = false;
-            }
-
-            eventLog.duration = timeDifference;
-            eventLog.id = log.id;
-            eventLog.host = log.host;
-            eventLog.type = log.type;
+            EventLog eventLog = new EventLog(startedEvent, finishedEvent);
 
             eventsToBeSaved.add(eventLog);
-
-            records.remove(log.id);
+            records.remove(finishedEvent.id);
         } else {
             //TODO: What when there is FINISHED state without STARTED state?
-            cacheRecord(log);
+            cacheRecord(finishedEvent);
         }
     }
 
