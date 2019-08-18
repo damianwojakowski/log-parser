@@ -1,7 +1,6 @@
 package com.test;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -46,6 +45,32 @@ public class EventLogTest {
         eventLog = new EventLog(startLog, finishLog);
 
         assertFalse(eventLog.alert);
+    }
+
+    @Test
+    public void GivenLogs_ShouldSaveDurationTime() {
+        int duration = 2;
+        Log startLog = createStartLog();
+        Log finishLog = createFinishLog(duration);
+
+        eventLog = new EventLog(startLog, finishLog);
+
+        assertEquals(duration, eventLog.duration);
+    }
+
+    @Test
+    public void GivenLogs_ShouldSaveHost() {
+        int duration = 5;
+        String host = "someHost";
+        Log startLog = createStartLog();
+        startLog.host = host;
+
+        Log finishLog = createFinishLog(duration);
+        finishLog.host = host;
+
+        eventLog = new EventLog(startLog, finishLog);
+
+        assertEquals(host, eventLog.host);
     }
 
     private Log createStartLog() {
