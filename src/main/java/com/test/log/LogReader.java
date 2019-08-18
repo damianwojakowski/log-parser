@@ -1,10 +1,10 @@
-package com.test;
+package com.test.log;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class LogReader {
+public class LogReader implements Reader {
     private FileInputStream inputStream;
     private Scanner scanner;
     private static final String charset = "UTF-8";
@@ -19,6 +19,7 @@ public class LogReader {
             if (inputStream != null) {
                 inputStream.close();
             }
+
             if (scanner != null) {
                 scanner.close();
             }
@@ -37,6 +38,7 @@ public class LogReader {
         if (inputStream != null) {
             inputStream.close();
         }
+
         if (scanner != null) {
             scanner.close();
         }

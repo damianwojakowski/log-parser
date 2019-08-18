@@ -1,4 +1,4 @@
-package com.test;
+package com.test.log;
 
 public class EventLog {
     private String id;

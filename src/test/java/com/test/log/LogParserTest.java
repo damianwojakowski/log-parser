@@ -1,5 +1,8 @@
-package com.test;
+package com.test.log;
 
+import com.test.log.EventLog;
+import com.test.log.Log;
+import com.test.log.LogParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

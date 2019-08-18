@@ -1,5 +1,8 @@
 package com.test;
 
+import com.test.log.LogParser;
+import com.test.log.LogReader;
+import com.test.log.Parser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,37 +12,29 @@ import java.io.IOException;
 
 import static org.junit.Assert.*;
 
-public class LogReaderTest {
-    private LogReader logReader;
+public class EventAnalyserTest {
+
     private static final String testLogsFilename = "logs";
+    EventAnalyser eventAnalyser;
 
     @Before
     public void setUp() throws Exception {
-        logReader = new LogReader();
+        eventAnalyser = new EventAnalyser(new LogParser(), new LogReader());
     }
 
     @After
     public void tearDown() throws Exception {
-        logReader = null;
+        eventAnalyser = null;
     }
 
     @Test
-    public void GivenFilePath_loadLogsFileAndReturnsWhetherCanRead() throws IOException {
-        logReader.loadFile(getPathToTestLogs());
+    public void givenFilePath_readsLogsAndCreatesEventLog() throws IOException {
+        int expectedEventLogsToBeSaved = 2;
 
-        assertTrue(logReader.hasNextLine());
+        eventAnalyser.readLogsFile(getPathToTestLogs());
+        Parser logsParser = eventAnalyser.getLogsParser();
 
-        logReader.closeStream();
-    }
-
-    @Test
-    public void GivenFilePath_loadReadsFirstLine() throws IOException {
-        logReader.loadFile(getPathToTestLogs());
-
-        logReader.hasNextLine();
-        assertNotNull(logReader.getNextLine());
-
-        logReader.closeStream();
+        assertEquals(expectedEventLogsToBeSaved, logsParser.getEventsToBeSaved().size());
     }
 
     private String getPathToTestLogs() {
@@ -47,4 +42,5 @@ public class LogReaderTest {
         File file = new File(classLoader.getResource(testLogsFilename).getFile());
         return file.getAbsolutePath();
     }
+
 }

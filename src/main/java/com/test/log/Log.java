@@ -1,4 +1,4 @@
-package com.test;
+package com.test.log;
 
 public class Log {
     public static final String STARTED_STATE = "STARTED";

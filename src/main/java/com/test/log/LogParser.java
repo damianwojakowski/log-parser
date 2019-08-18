@@ -1,4 +1,4 @@
-package com.test;
+package com.test.log;
 
 import com.google.gson.Gson;
 
@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LogParser {
+public class LogParser implements Parser {
     Gson json = new Gson();
     Map<String, Log> records = new HashMap<>();
     List<EventLog> eventsToBeSaved = new ArrayList<>();

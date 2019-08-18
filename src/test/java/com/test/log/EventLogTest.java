@@ -1,4 +1,4 @@
-package com.test;
+package com.test.log;
 
 import org.junit.After;
 import org.junit.Test;
