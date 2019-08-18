@@ -81,7 +81,7 @@ public class LogParserTest {
     }
 
     @Test
-    public void GivenRecordWithFinishedState_CalculateTimeDifference() {
+    public void GivenRecordWithFinishedState_CalculateTimeDifferenceAndCacheEventLogInToBeSavedList() {
         String id = "1";
         long startedTimestamp = 1566113940774L;
         long finisedTimestamp = 1566113940776L;
