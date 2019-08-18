@@ -18,19 +18,31 @@ public class EventAnalyser {
 
     public void readLogsFile(String pathToLogs) throws IOException {
         reader.loadFile(pathToLogs);
-        int counter = 0;
+        int logsParsed = 0;
 
         while (reader.hasNextLine()) {
             parser.parseRecord(reader.getNextLine());
-            counter++;
+            logsParsed++;
 
-            if (counter >= SAVE_LIMIT_AT_ONCE) {
-                counter = 0;
-                System.out.println("Saving logs at one go...");
+            if (logsParsed >= SAVE_LIMIT_AT_ONCE) {
+                logsParsed = 0;
+                saveLogs();
             }
         }
 
+        saveAnyLogsLeft();
+
         reader.closeStream();
+    }
+
+    private void saveAnyLogsLeft() {
+        if (parser.getEventsToBeSaved().size() > 0) {
+            saveLogs();
+        }
+    }
+
+    private void saveLogs() {
+        System.out.println("Saving logs at one go...");
     }
 
     public Parser getLogsParser() {
