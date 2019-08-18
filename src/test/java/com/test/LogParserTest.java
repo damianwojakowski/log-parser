@@ -117,6 +117,7 @@ public class LogParserTest {
         String id = "asdfasfda";
         String expectedType = "APPLICATION_LOG";
         String expectedHost = "1234";
+        boolean isAlert = false;
         long startedTimestamp = 1566113940774L;
         long finishedTimestamp = 1566113940776L;
         long timeDifference = finishedTimestamp - startedTimestamp;
@@ -132,6 +133,7 @@ public class LogParserTest {
         assertEquals(timeDifference, eventLog.duration);
         assertEquals(expectedHost, eventLog.host);
         assertEquals(expectedType, eventLog.type);
+        assertEquals(isAlert, eventLog.alert);
     }
 
     private String generateEventString(String id, String state, long timestamp) {

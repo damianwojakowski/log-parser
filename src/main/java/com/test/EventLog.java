@@ -13,7 +13,7 @@ public class EventLog {
 
         id = startLog.id;
         type = startLog.type != null && !startLog.type.isEmpty() ? startLog.type : finishLog.type;
-        host = startLog.host != null && !startLog.type.isEmpty() ? startLog.host : finishLog.host;
+        host = startLog.host != null && !startLog.host.isEmpty() ? startLog.host : finishLog.host;
     }
 
     private void setDurationAndAlert(long duration) {
