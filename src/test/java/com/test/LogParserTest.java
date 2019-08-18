@@ -84,19 +84,23 @@ public class LogParserTest {
         long startedTimestamp = 1566113940774L;
         long finisedTimestamp = 1566113940776L;
         long timeDifference = finisedTimestamp - startedTimestamp;
-        String inputValue = String.format(
+        String startedEvent = String.format(
+                "{\"id\":\"1\",\"state\":\"%s\",\"timestamp\":\"%d\"}",
+                Log.STARTED_STATE,
+                startedTimestamp
+        );
+
+        String finishedEvent = String.format(
                 "{\"id\":\"1\",\"state\":\"%s\",\"timestamp\":\"%d\"}",
                 Log.FINISHED_STATE,
                 finisedTimestamp
         );
 
-        Log expectedValue = new Log();
-        expectedValue.id = "1";
-        expectedValue.state = Log.STARTED_STATE;
-        expectedValue.timestamp = startedTimestamp;
+        logParser.parseRecord(startedEvent);
+        logParser.parseRecord(finishedEvent);
 
-        logParser.parseRecord(inputValue);
+        EventLog eventLog = logParser.getEventsToBeSaved().get(0);
 
-//        assertEquals(expectedSize, logParser.getRecords().size());
+        assertEquals(timeDifference, eventLog.duration);
     }
 }
