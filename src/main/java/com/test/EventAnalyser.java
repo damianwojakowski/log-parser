@@ -15,7 +15,7 @@ public class EventAnalyser {
     private Reader reader;
     private Saver saver;
 
-    private static final int SAVE_LIMIT_AT_ONCE = 10;
+    private static final int SAVE_LIMIT_AT_ONCE = 100;
 
     public EventAnalyser(Parser parser, Reader reader, Saver saver) {
         this.parser = parser;
