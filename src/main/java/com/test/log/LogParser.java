@@ -57,4 +57,8 @@ public class LogParser implements Parser {
     public List<EventLog> getEventsToBeSaved() {
         return eventsToBeSaved;
     }
+
+    public void cleanToBeSavedList() {
+        eventsToBeSaved.clear();
+    }
 }

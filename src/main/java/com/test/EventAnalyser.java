@@ -15,7 +15,7 @@ public class EventAnalyser {
     private Reader reader;
     private Saver saver;
 
-    private static final int SAVE_LIMIT_AT_ONCE = 100;
+    private static final int SAVE_LIMIT_AT_ONCE = 10;
 
     public EventAnalyser(Parser parser, Reader reader, Saver saver) {
         this.parser = parser;
@@ -44,6 +44,7 @@ public class EventAnalyser {
             if (logsParsed >= SAVE_LIMIT_AT_ONCE) {
                 logsParsed = 0;
                 saveLogs();
+                parser.cleanToBeSavedList();
             }
         }
 

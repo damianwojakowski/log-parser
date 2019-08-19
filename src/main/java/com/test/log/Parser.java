@@ -7,4 +7,5 @@ public interface Parser {
     public void parseRecord(String recordAsJson);
     public Map<String, Log> getRecords();
     public List<EventLog> getEventsToBeSaved();
+    public void cleanToBeSavedList();
 }
